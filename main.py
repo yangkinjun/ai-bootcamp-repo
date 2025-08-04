@@ -28,9 +28,20 @@ st.markdown("""
 This is your one-stop AI-powered assistant for understanding Singapore's employment regulations.
 
 Explore key features:
-- 🤖 Chatbot for employment-related queries
+- 💬 Employment Regulations Chatbot
 - 📘 Employment Law Explorer
 - 🛂 Work Pass Eligibility Checker
 - 📄 Contract Clause Validator
 - 📅 Upcoming Policy Changes
 """)
+
+# from utils.vector_store import load_and_index_documents
+
+# # Optional: show this only for devs
+# with st.sidebar.expander("🛠️ Developer Tools", expanded=False):
+#     if st.button("🔄 Rebuild Vector Store"):
+#         with st.spinner("Re-indexing MOM documents..."):
+#             load_and_index_documents()
+#         st.success("✅ Vector store rebuilt successfully!")
+
+
