@@ -5,7 +5,7 @@ from utils.utility import check_password
 
 st.set_page_config(
     layout="centered",
-    page_title="My Streamlit App - Page 1"
+    page_title="My Streamlit App - Page 2"
 )
 
 # Do not continue if check_password is not True.  

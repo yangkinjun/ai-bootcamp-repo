@@ -4,7 +4,7 @@ from utils.utility import check_password
 # region &lt;--------- Streamlit Page Configuration ---------&gt;
 
 st.set_page_config(
-    layout="wide",
+    layout="centered",
     page_title="My Streamlit App"
 )
 
@@ -43,5 +43,3 @@ Explore key features:
 #         with st.spinner("Re-indexing MOM documents..."):
 #             load_and_index_documents()
 #         st.success("✅ Vector store rebuilt successfully!")
-
-
