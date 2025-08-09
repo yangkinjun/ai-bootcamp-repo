@@ -4,7 +4,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 from utils.utility import check_password
-from utils.agent import run_agent
+from utils.agent import agent_search
 
 
 # region &lt;--------- Streamlit Page Configuration ---------&gt;
@@ -44,7 +44,7 @@ if prompt := st.chat_input("What would you like to enquire today?"):
         st.markdown(prompt)
 
     # run the agent with the prompt
-    response = run_agent(prompt)
+    response = agent_search(prompt)
 
     # Stream the response to the chat using `st.write_stream`, then store it in
     # session state.

@@ -13,7 +13,7 @@ def create_agent():
     load_dotenv()
 
     # create the model for agent to use
-    agent_model = OpenAIServerModel(model_id="gpt-4.1-mini")
+    agent_model = OpenAIServerModel(model_id="gpt-4o-mini")
 
     # create an agent with tools
     tools = [get_mom_regulation]
@@ -50,7 +50,7 @@ def get_mom_regulation(query: str) -> dict:
     return response["result"]
 
 
-def run_agent(query):
+def agent_search(query):
 
     # create the agent
     agent = create_agent()
