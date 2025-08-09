@@ -31,7 +31,7 @@ def create_agent_ally():
     agent_model = OpenAIServerModel(model_id="gpt-4o-mini")
 
     # create an agent with tools
-    tools = [search_mom_regulation, check_rights_tool, translate_lang_for_processing]
+    tools = [search_mom_regulation, check_rights_tool]
     agent = CodeAgent(tools, model=agent_model, add_base_tools=False, max_steps=5)
 
     return agent
@@ -40,13 +40,13 @@ def create_agent_ally():
 @tool
 def search_mom_regulation(query: str) -> str:
     """
-    Search the employment act clause related to the user's query.
+    Search MOM docs for matching regulations.
 
     Args:
         query (str): The user's search query.
 
     Returns:
-        str: The relevant clause.
+        dict: The matching regulations.
     """
 
     # search the MOM docs for matching regulations
@@ -77,14 +77,18 @@ def agent_search(query):
 
     prompt = f"""
 
-    You are a helpful assistant that use the tools available to find the relevant MOM regulations to the query for HR practitioners.
+    You are a helpful assistant that uses the provided tools to find the relevant MOM (Ministry of Manpower) regulations for HR practitioners.
 
     Query: {query}
 
-    Find the answers to the query using the tools available. 
-    Your response should be professional and concise for HR practitioners.
-    Do not use the Intenet. If you cannot find the answer, respond with "Please refer to the MOM website for more information."
-    If the query is not related to MOM regulations, respond with "This query is not related to MOM regulations."
+    Rules:
+    1. Respond in a professional and concise manner for HR practitioners.
+    2. Do not use the Internet or any external sources other than the provided tools.
+    3. If the query is not related to MOM regulations, reply exactly with:
+       "This query is not related to MOM regulations."
+    4. If the query is related to MOM regulations but you do not have enough information or confidence to answer, reply exactly with:
+       "Please refer to the MOM website for more information."
+    5. Always follow these rules exactly. Do not change the wording in rules 3 or 4.
     """
 
     return agent.run(prompt)
@@ -93,18 +97,22 @@ def agent_search(query):
 def agent_ally_search(query):
 
     # create the agent
-    agent = create_agent()
+    agent = create_agent_ally()
 
     prompt = f"""
 
-    You are a helpful assistant that use the tools available to help workers address their concerns.
+    You are the Worker Ally Assistant — a multilingual, AI-powered grievance assistant that helps workers understand their rights, express workplace concerns clearly, and explore resolution pathways.
 
     Query: {query}
 
-    Find the answers to the query using the tools available. 
-    Your response should be like a friend, though not overly casual.
-    Do not use the Intenet. If you cannot find the answer, respond with "Sorry, I am unable to help you in this matter. Please call the MOM helpline at 61234567 for assistance."
-    If the query is not related to MOM or employment matters, respond with "Sorry, this is not related to employment matters."
+    Rules:
+    1. Be friendly, empathetic, and supportive.
+    2. Do not use the Internet or any external sources other than the provided tools.
+    3. If the query is not related to employment matters, reply exactly with:
+       "Sorry, this is not related to employment matters."
+    4. If the query is related to employment matters but you do not have enough information or confidence to answer, reply exactly with:
+       "Sorry, I am unable to help you in this matter. Please call the MOM helpline at 61234567 for assistance."
+    5. Always follow these rules exactly. Do not change the wording in rules 3 or 4.
     """
 
     return agent.run(prompt)
