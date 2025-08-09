@@ -5,7 +5,7 @@ from smolagents import tool, CodeAgent, OpenAIServerModel
 from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
 
-from utils.vector_store import get_retriever
+from utils.vector_store import get_retriever, search_mom_docs
 
 
 def create_agent():
@@ -34,20 +34,8 @@ def get_mom_regulation(query: str) -> dict:
         dict: The matching regulations.
     """
 
-    # the API key will be loaded from .env and available in os.environ
-    load_dotenv()
-
-    # llm to be used in RAG pipeplines
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, seed=42, streaming=True)
-
-    # retrieve documents from the vector store
-    # and use the LLM to answer questions based on the retrieved documents
-    rag_chain = RetrievalQA.from_llm(retriever=get_retriever(), llm=llm)
-
-    response = rag_chain.invoke(query)
-
-    print(response)
-    return response["result"]
+    # search the MOM docs for matching regulations
+    return search_mom_docs(query)
 
 
 def agent_search(query):

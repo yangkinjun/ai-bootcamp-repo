@@ -117,8 +117,8 @@ def search_mom_docs(query: str) -> dict:
     # retrieve documents from the vector store
     # and use the LLM to answer questions based on the retrieved documents
     rag_chain = RetrievalQA.from_llm(retriever=get_retriever(), llm=llm)
-
     response = rag_chain.invoke(query)
+
     print(response)
 
     return response["result"]
