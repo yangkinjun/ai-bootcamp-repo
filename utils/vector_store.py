@@ -2,19 +2,33 @@ import os
 
 from dotenv import load_dotenv
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
-from langchain_community.vectorstores import Chroma
-
+from langchain_chroma import Chroma
+from langchain.chains import RetrievalQA
 
 CHROMA_PATH = "../data/chroma_store"
 
 
 def get_embedding_model_name():
+    """
+    Returns name of the embedding model to be used.
+
+    Returns:
+        str: The name of the embedding model.
+    """
     return "text-embedding-3-small"
 
 
 def load_and_index_documents():
+    """
+    Loads documents from the 'data/' directory, splits them into smaller chunks,
+    and creates a Chroma vector store from the chunks.
+
+    Returns:
+        None
+    """
+
     docs_dir = "data/"
     list_of_documents_loaded = []
 
@@ -64,6 +78,13 @@ def load_and_index_documents():
 
 
 def get_retriever():
+    """
+    Returns a retriever for the MOM regulations vector store.
+
+    Returns:
+        VectorStoreRetriever: The retriever for the MOM regulations vector store.
+    """
+
     # embedding model
     embeddings_model = OpenAIEmbeddings(model=get_embedding_model_name())
 
@@ -74,3 +95,30 @@ def get_retriever():
         persist_directory=CHROMA_PATH,
     )
     return vector_store.as_retriever()
+
+
+def search_mom_docs(query: str) -> dict:
+    """
+    Searches MOM docs for matching regulations.
+
+    Args:
+        query (str): The user's search query.
+
+    Returns:
+        dict: The matching regulations.
+    """
+
+    # the API key will be loaded from .env and available in os.environ
+    load_dotenv()
+
+    # llm to be used in RAG pipeplines
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, seed=42, streaming=True)
+
+    # retrieve documents from the vector store
+    # and use the LLM to answer questions based on the retrieved documents
+    rag_chain = RetrievalQA.from_llm(retriever=get_retriever(), llm=llm)
+
+    response = rag_chain.invoke(query)
+    print(response)
+
+    return response["result"]
