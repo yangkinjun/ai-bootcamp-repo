@@ -111,7 +111,7 @@ def search_mom_docs(query: str) -> dict:
     # the API key will be loaded from .env and available in os.environ
     load_dotenv()
 
-    # llm to be used in RAG pipeplines
+    # llm to be used
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, seed=42, streaming=True)
 
     # retrieve documents from the vector store

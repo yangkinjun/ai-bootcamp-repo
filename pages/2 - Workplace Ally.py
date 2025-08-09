@@ -1,0 +1,58 @@
+import streamlit as st
+
+from openai import OpenAI
+from dotenv import load_dotenv
+from langdetect import detect
+
+from utils.utility import check_password
+from utils.agent import agent_ally_search
+from utils.translate import detect_language, translate_text
+
+
+# region &lt;--------- Streamlit Page Configuration ---------&gt;
+st.set_page_config(layout="centered", page_title="My Streamlit App - Page 2")
+
+# Do not continue if check_password is not True.
+# if not check_password():
+#     st.stop()
+
+# Show title and description.
+st.title("🤝 Workplace Ally (Multi-lingual)")
+st.write(
+    "Hi, I am Ally, your workplace best friend. I'll help you by listening to your concerns."
+)
+# endregion &lt;--------- Streamlit Page Configuration ---------&gt;
+
+# language = st.selectbox("Preferred language:", ["English", "Chinese", "Malay", "Tamil", "Bengali"])
+
+# Input
+user_input = st.text_area(
+    "Describe your situation below. You may type in your preferred language."
+)
+# lang = detect_language(user_input) if user_input else "en"
+
+if st.button("Assist me"):
+    if not user_input.strip():
+        st.warning("Please write your concerns.")
+        st.stop()
+
+    with st.spinner("Detecting language..."):
+        user_lang = detect_language(user_input)
+    st.info(f"Detected language: {user_lang}")
+
+    # 1) Translate to English if needed
+    if user_lang != "en":
+        with st.spinner("Translating to English..."):
+            query_en = translate_text(user_input)
+        st.info(f"Translated to English: {query_en}")
+    else:
+        query_en = user_input
+
+    with st.spinner("Thinking..."):
+        response = agent_ally_search(query_en)
+
+    if user_lang != "en":
+        with st.spinner("Translating response back to your language..."):
+            response = translate_text(response, target_lang=user_lang)
+        st.info(f"Response in {user_lang}: {response}")
+    st.markdown(f"🤝 Ally says: {response}")
