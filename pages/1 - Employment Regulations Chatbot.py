@@ -11,12 +11,14 @@ from utils.agent import agent_search
 st.set_page_config(layout="centered", page_title="My Streamlit App - Page 1")
 
 # Do not continue if check_password is not True.
-# if not check_password():
-#     st.stop()
+if not check_password():
+    st.stop()
 
 # Show title and description.
 st.title("💬 Employment Regulations")
-st.write("This is a chatbot to ask about employment regulations in Singapore. ")
+st.write(
+    "This is an AI-powered chatbot to ask about employment regulations in Singapore. "
+)
 # endregion &lt;--------- Streamlit Page Configuration ---------&gt;
 
 

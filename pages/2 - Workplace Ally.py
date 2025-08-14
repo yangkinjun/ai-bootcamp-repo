@@ -1,8 +1,6 @@
 import streamlit as st
 
 from openai import OpenAI
-from dotenv import load_dotenv
-from langdetect import detect
 
 from utils.utility import check_password
 from utils.agent import agent_ally_search
@@ -13,8 +11,8 @@ from utils.translate import detect_language, translate_text
 st.set_page_config(layout="centered", page_title="My Streamlit App - Page 2")
 
 # Do not continue if check_password is not True.
-# if not check_password():
-#     st.stop()
+if not check_password():
+    st.stop()
 
 # Show title and description.
 st.title("🤝 Workplace Ally (Multi-lingual)")
