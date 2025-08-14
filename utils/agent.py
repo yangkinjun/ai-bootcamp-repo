@@ -4,9 +4,11 @@ from openai import OpenAI
 from smolagents import tool, CodeAgent, OpenAIServerModel
 from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
+from langchain.memory import ConversationBufferMemory
+from langchain.chains import ConversationalRetrievalChain
 
 from utils.translate import translate_text
-from utils.vector_store import search_mom_docs
+from utils.vector_store import search_mom_docs, get_retriever
 
 
 def create_agent():
@@ -19,7 +21,7 @@ def create_agent():
     # create an agent with tools
     tools = [search_mom_regulation]
     agent = CodeAgent(tools, model=agent_model, add_base_tools=False, max_steps=5)
-
+    print("Agent created with tools:", tools)
     return agent
 
 
@@ -40,17 +42,52 @@ def create_agent_ally():
 @tool
 def search_mom_regulation(query: str) -> str:
     """
-    Search MOM docs for matching regulations.
+    Search documents for matching Singapore MOM regulations.
 
     Args:
         query (str): The user's search query.
+        chat_history (list, optional): List of previous messages for conversational context.
 
     Returns:
         dict: The matching regulations.
     """
 
-    # search the MOM docs for matching regulations
-    return search_mom_docs(query)
+    print("in search_mom_regulation()")
+    # the API key will be loaded from .env and available in os.environ
+    load_dotenv()
+
+    # llm to be used
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, seed=42, streaming=True)
+    print("after llm")
+
+    # create memory for conversation history
+    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+    print("after memory")
+
+    # Create the retriever (your existing get_retriever function)
+    retriever = get_retriever()
+    print("after get_retriever")
+
+    # # Create the conversational chain
+    # conv_chain = ConversationalRetrievalChain.from_llm(
+    #     llm=llm, retriever=retriever, memory=memory
+    # )
+    # retrieve documents from the vector store
+    # and use the LLM to answer questions based on the retrieved documents
+    rag_chain = RetrievalQA.from_llm(retriever=get_retriever(), llm=llm)
+    response = rag_chain.invoke(query)
+
+    # print("after conv_chain")
+
+    # # To use the chain, pass both the query and the chat history:
+    # response = conv_chain({"question": query, "chat_history": chat_history})
+
+    # result = response.get("result") or response.get("answer")
+    # if not isinstance(result, str):
+    #     result = str(result)
+    # return result
+
+    return response["result"]
 
 
 @tool
@@ -70,10 +107,13 @@ def check_rights_tool(issue: str) -> str:
     return llm.invoke(prompt).content
 
 
-def agent_search(query):
+def agent_search(agent, query):
 
     # create the agent
-    agent = create_agent()
+    # agent = create_agent()
+
+    # if chat_history is None:
+    #     chat_history = []
 
     prompt = f"""
 
@@ -91,6 +131,7 @@ def agent_search(query):
     5. Always follow these rules exactly. Do not change the wording in rules 3 or 4.
     """
 
+    print("Running agent_search with query:", query)
     return agent.run(prompt)
 
 

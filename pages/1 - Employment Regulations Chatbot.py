@@ -4,7 +4,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 from utils.utility import check_password
-from utils.agent import agent_search
+from utils.agent import create_agent, agent_search
 
 
 # region &lt;--------- Streamlit Page Configuration ---------&gt;
@@ -27,6 +27,10 @@ load_dotenv()
 
 CHROMA_PATH = "../data/chroma_store"
 
+# create agent once per session
+if "agent" not in st.session_state:
+    st.session_state.agent = create_agent()
+
 # create a session state variable to store the chat messages
 # this ensures that the messages persist across reruns
 if "messages" not in st.session_state:
@@ -44,6 +48,9 @@ if prompt := st.chat_input("What would you like to enquire today?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
+
+    chat_history = [(m["role"], m["content"]) for m in st.session_state.messages]
+    print("chat history", chat_history)
 
     # run the agent with the prompt
     response = agent_search(prompt)
