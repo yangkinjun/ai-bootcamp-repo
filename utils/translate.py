@@ -2,24 +2,6 @@ from langdetect import detect
 from langchain_openai import ChatOpenAI
 
 
-# # ====== Language Detection ======
-# def detect_language(text: str) -> str:
-#     translator = GoogleTranslator(source="auto", target="en")
-#     detected_lang = translator.detect(text)
-#     return detected_lang[0]  # returns language code like 'en', 'zh', etc.
-
-
-# # ====== Translation ======
-# def translate_to_english(text: str) -> str:
-#     translator = GoogleTranslator(source="auto", target="en")
-#     return translator.translate(text)
-
-
-# def translate_from_english(text: str, target_lang: str) -> str:
-#     translator = GoogleTranslator(source="en", target=target_lang)
-#     return translator.translate(text)
-
-
 # lightweight language detection
 def detect_language(text: str) -> str:
     try:
@@ -39,8 +21,7 @@ def translate_text(text: str, target_lang: str = "en") -> str:
     prompt = f"{text}\n\nTranslate to {target_lang}:"
 
     resp = llm.invoke(prompt)
-    # If response object differs, get the text accordingly:
-    # e.g., resp.content or resp['content'] depending on the lib you use
+
     try:
         return resp.content
     except Exception:

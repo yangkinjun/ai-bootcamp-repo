@@ -1,7 +1,5 @@
 import streamlit as st
-from dotenv import load_dotenv
 
-# from langchain.tools import tool
 from openai import OpenAI
 from smolagents import tool, CodeAgent, OpenAIServerModel
 from langchain_openai import ChatOpenAI
@@ -9,13 +7,11 @@ from langchain.chains import RetrievalQA
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 
-from utils.translate import translate_text
-from utils.vector_store import search_mom_docs, get_retriever
+from utils.vector_store import get_retriever
 
 
 def create_agent():
-    # the API key will be loaded from .env and available in os.environ
-    # load_dotenv()
+    # loads the API key
     OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     # create the model for agent to use
@@ -29,8 +25,7 @@ def create_agent():
 
 
 def create_agent_ally():
-    # the API key will be loaded from .env and available in os.environ
-    # load_dotenv()
+    # loads the API key
     OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     # create the model for agent to use
@@ -60,8 +55,8 @@ def search_mom_regulation(query: str) -> str:
     """
 
     print("in search_mom_regulation()")
-    # the API key will be loaded from .env and available in os.environ
-    # load_dotenv()
+
+    # loads the API key
     OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     # llm to be used
@@ -110,9 +105,12 @@ def check_rights_tool(issue: str) -> str:
 
     Returns:
         str: The summary of the worker's rights.
+
+    Example:
+      result = search_mom_regulation('我在短短的一天 被公司解雇了 。这是合理的吗?')
     """
-    # the API key will be loaded from .env and available in os.environ
-    # load_dotenv()
+
+    # loads the API key
     OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, api_key=OPENAPI_API_KEY)

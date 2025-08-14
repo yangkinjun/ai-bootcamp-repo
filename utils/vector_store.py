@@ -95,30 +95,3 @@ def get_retriever():
         persist_directory=CHROMA_PATH,
     )
     return vector_store.as_retriever()
-
-
-def search_mom_docs(query: str) -> dict:
-    """
-    Searches MOM docs for matching regulations.
-
-    Args:
-        query (str): The user's search query.
-
-    Returns:
-        dict: The matching regulations.
-    """
-
-    # the API key will be loaded from .env and available in os.environ
-    load_dotenv()
-
-    # llm to be used
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, seed=42, streaming=True)
-
-    # retrieve documents from the vector store
-    # and use the LLM to answer questions based on the retrieved documents
-    rag_chain = RetrievalQA.from_llm(retriever=get_retriever(), llm=llm)
-    response = rag_chain.invoke(query)
-
-    print(response)
-
-    return response["result"]
