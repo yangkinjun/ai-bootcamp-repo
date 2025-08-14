@@ -1,8 +1,5 @@
 import streamlit as st
 
-from openai import OpenAI
-from dotenv import load_dotenv
-
 from utils.utility import check_password
 from utils.agent import create_agent, agent_search
 
@@ -20,10 +17,6 @@ st.write(
     "This is an AI-powered chatbot to ask about employment regulations in Singapore. "
 )
 # endregion &lt;--------- Streamlit Page Configuration ---------&gt;
-
-
-# the API key will be loaded from .env and available in os.environ
-load_dotenv()
 
 CHROMA_PATH = "../data/chroma_store"
 
@@ -53,7 +46,7 @@ if prompt := st.chat_input("What would you like to enquire today?"):
     print("chat history", chat_history)
 
     # run the agent with the prompt
-    response = agent_search(prompt)
+    response = agent_search(st.session_state.agent, prompt)
 
     # Stream the response to the chat using `st.write_stream`, then store it in
     # session state.

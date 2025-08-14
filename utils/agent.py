@@ -1,5 +1,7 @@
+import streamlit as st
 from dotenv import load_dotenv
-from langchain.tools import tool
+
+# from langchain.tools import tool
 from openai import OpenAI
 from smolagents import tool, CodeAgent, OpenAIServerModel
 from langchain_openai import ChatOpenAI
@@ -13,10 +15,11 @@ from utils.vector_store import search_mom_docs, get_retriever
 
 def create_agent():
     # the API key will be loaded from .env and available in os.environ
-    load_dotenv()
+    # load_dotenv()
+    OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     # create the model for agent to use
-    agent_model = OpenAIServerModel(model_id="gpt-4o-mini")
+    agent_model = OpenAIServerModel(model_id="gpt-4o-mini", api_key=OPENAPI_API_KEY)
 
     # create an agent with tools
     tools = [search_mom_regulation]
@@ -54,10 +57,17 @@ def search_mom_regulation(query: str) -> str:
 
     print("in search_mom_regulation()")
     # the API key will be loaded from .env and available in os.environ
-    load_dotenv()
+    # oad_dotenv()
+    OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     # llm to be used
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, seed=42, streaming=True)
+    llm = ChatOpenAI(
+        model="gpt-4o-mini",
+        temperature=0,
+        seed=42,
+        streaming=True,
+        api_key=OPENAPI_API_KEY,
+    )
     print("after llm")
 
     # create memory for conversation history
