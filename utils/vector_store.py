@@ -1,9 +1,10 @@
-# __import__("pysqlite3")
-# import sys
+__import__("pysqlite3")
+import sys
 
-# sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 
 import os
+import streamlit as st
 
 from dotenv import load_dotenv
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -67,11 +68,13 @@ def load_and_index_documents():
     )
     chunks = text_splitter.split_documents(list_of_documents_loaded)
 
-    # the API key will be loaded from .env and available in os.environ
-    load_dotenv()
+    # loads the API key
+    OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     # embedding model
-    embeddings_model = OpenAIEmbeddings(model=get_embedding_model_name())
+    embeddings_model = OpenAIEmbeddings(
+        model=get_embedding_model_name(), api_key=OPENAPI_API_KEY
+    )
 
     # create the chroma vector store from the chunks
     vector_store = Chroma.from_documents(
