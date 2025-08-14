@@ -1,7 +1,7 @@
-__import__("pysqlite3")
-import sys
+# __import__("pysqlite3")
+# import sys
 
-sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+# sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 
 import streamlit as st
 
@@ -36,7 +36,7 @@ def create_agent_ally():
     OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     # create the model for agent to use
-    agent_model = OpenAIServerModel(model_id="gpt-4o-mini")
+    agent_model = OpenAIServerModel(model_id="gpt-4o-mini", api_key=OPENAPI_API_KEY))
 
     # create an agent with tools
     tools = [search_mom_regulation, check_rights_tool]
