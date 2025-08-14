@@ -121,26 +121,26 @@ def check_rights_tool(issue: str) -> str:
     OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, api_key=OPENAPI_API_KEY)
-    # prompt = f"""
-    # Summarise the legal rights a worker in Singapore has regarding {issue}
-    # """
-    # return llm.invoke(prompt).content
+    prompt = f"""
+    Summarise the legal rights a worker in Singapore has regarding {issue}
+    """
+    return llm.invoke(prompt).content
 
-    # Define system message (rules / instructions)
-    system_msg = SystemMessage(
-        content=(
-            "You are a legal assistant that summarises the rights of workers in Singapore. "
-            "Do not use the Internet. Only summarise based on Singapore employment laws."
-        )
-    )
+    # # Define system message (rules / instructions)
+    # system_msg = SystemMessage(
+    #     content=(
+    #         "You are a legal assistant that summarises the rights of workers in Singapore. "
+    #         "Do not use the Internet. Only summarise based on Singapore employment laws."
+    #     )
+    # )
 
-    # Define user message (treat as plain text; prevents prompt injection)
-    user_msg = HumanMessage(content=f"The worker's issue is: {issue}")
+    # # Define user message (treat as plain text; prevents prompt injection)
+    # user_msg = HumanMessage(content=f"The worker's issue is: {issue}")
 
-    # Call the LLM safely
-    response = llm([system_msg, user_msg])
+    # # Call the LLM safely
+    # response = llm([system_msg, user_msg])
 
-    return response.content
+    # return response.content
 
 
 def agent_search(agent, query):

@@ -1,8 +1,8 @@
 import streamlit as st
 
-import os
+# import os
 
-os.environ["CHROMA_TELEMETRY_ENABLED"] = "false"
+# os.environ["CHROMA_TELEMETRY_ENABLED"] = "false"
 
 st.expander("Disclaimer", expanded=True).markdown(
     """
