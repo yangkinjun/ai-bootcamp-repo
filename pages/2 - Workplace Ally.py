@@ -1,9 +1,7 @@
 import streamlit as st
 
-from openai import OpenAI
-
 from utils.utility import check_password
-from utils.agent import agent_ally_search
+from utils.agent import create_agent_ally, agent_ally_search
 from utils.translate import detect_language, translate_text
 
 
@@ -22,6 +20,10 @@ st.write(
 # endregion &lt;--------- Streamlit Page Configuration ---------&gt;
 
 # language = st.selectbox("Preferred language:", ["English", "Chinese", "Malay", "Tamil", "Bengali"])
+
+# create agent once per session
+if "agent" not in st.session_state:
+    st.session_state.agent = create_agent_ally()
 
 # Input
 user_input = st.text_area(
@@ -47,7 +49,7 @@ if st.button("Assist me"):
         query_en = user_input
 
     with st.spinner("Thinking..."):
-        response = agent_ally_search(query_en)
+        response = agent_ally_search(st.session_state.agent, query_en)
 
     if user_lang != "en":
         with st.spinner("Translating response back to your language..."):

@@ -18,8 +18,6 @@ st.write(
 )
 # endregion &lt;--------- Streamlit Page Configuration ---------&gt;
 
-CHROMA_PATH = "../data/chroma_store"
-
 # create agent once per session
 if "agent" not in st.session_state:
     st.session_state.agent = create_agent()

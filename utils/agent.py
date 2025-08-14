@@ -119,9 +119,6 @@ def check_rights_tool(issue: str) -> str:
 
 def agent_search(agent, query):
 
-    # create the agent
-    # agent = create_agent()
-
     # if chat_history is None:
     #     chat_history = []
 
@@ -145,10 +142,7 @@ def agent_search(agent, query):
     return agent.run(prompt)
 
 
-def agent_ally_search(query):
-
-    # create the agent
-    agent = create_agent_ally()
+def agent_ally_search(agent, query):
 
     prompt = f"""
 
@@ -165,5 +159,6 @@ def agent_ally_search(query):
        "Sorry, I am unable to help you in this matter. Please call the MOM helpline at 61234567 for assistance."
     5. Always follow these rules exactly. Do not change the wording in rules 3 or 4.
     """
+    print("Running agent_ally_search with query:", query)
 
     return agent.run(prompt)
