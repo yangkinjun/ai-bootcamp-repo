@@ -10,8 +10,9 @@ from smolagents import tool, CodeAgent, OpenAIServerModel
 from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
 from langchain.schema import HumanMessage, SystemMessage
-from langchain.memory import ConversationBufferMemory
-from langchain.chains import ConversationalRetrievalChain
+
+# from langchain.memory import ConversationBufferMemory
+# from langchain.chains import ConversationalRetrievalChain
 
 from utils.vector_store import get_retriever
 
@@ -75,8 +76,8 @@ def search_mom_regulation(query: str) -> str:
     )
 
     # create memory for conversation history
-    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-    print("after memory")
+    # memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+    # print("after memory")
 
     # Create the retriever (your existing get_retriever function)
     retriever = get_retriever()
