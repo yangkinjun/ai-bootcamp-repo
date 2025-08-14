@@ -119,7 +119,9 @@ def check_rights_tool(issue: str) -> str:
     OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, api_key=OPENAPI_API_KEY)
-    prompt = f"Summarise the legal rights a worker in Singapore has regarding {issue}"
+    prompt = f"""
+    Summarise the legal rights a worker in Singapore has regarding {issue}
+    """
     return llm.invoke(prompt).content
 
 
