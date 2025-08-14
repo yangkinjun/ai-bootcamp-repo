@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_community.vectorstores import Chroma
-from utils.vector_store import load_and_index_documents, get_retriever
+from utils.vector_store import load_and_index_documents
 
 if __name__ == "__main__":
     print("Building Chroma vector store from MOM documents...")
@@ -23,21 +23,3 @@ if __name__ == "__main__":
 # #         # There is no universal threshold, it depends on the use case
 # #         search_kwargs={"similarity_score_threshold": 0.20}
 # # )
-
-# # llm to be used in RAG pipeplines
-# llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, seed=42)
-
-# # retrieve documents from the vector store
-# # and use the LLM to answer questions based on the retrieved documents
-# rag_chain = RetrievalQA.from_llm(retriever=get_retriever(), llm=llm)
-
-# llm_response = rag_chain.invoke("who has the right to terminate employment contract?")
-# print(llm_response["result"])
-
-
-# response = rag_chain.stream("who has the right to terminate employment contract?")
-# print(f"Response type: {type(response)}")
-# print(response)
-# for chunk in response:
-#     if "answer" in chunk:
-#         print(chunk["answer"])
