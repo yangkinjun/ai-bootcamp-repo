@@ -53,4 +53,4 @@ if st.button("Assist me"):
         with st.spinner("Translating response back to your language..."):
             response = translate_text(response, target_lang=user_lang)
         # st.info(f"Response in {user_lang}: {response}")
-    st.markdown(f"🤝 Ally says: {response}")
+    st.markdown(f"🤝 Ally says: <code>{response}</code>", unsafe_allow_html=True)
