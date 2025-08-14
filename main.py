@@ -11,11 +11,19 @@ Always consult with qualified professionals for accurate and personalized advice
 )
 
 
-# from utils.vector_store import load_and_index_documents
+from utils.vector_store import load_and_index_documents
 
-# # Optional: show this only for devs
-# with st.sidebar.expander("🛠️ Developer Tools", expanded=False):
-#     if st.button("🔄 Rebuild Vector Store"):
-#         with st.spinner("Re-indexing MOM documents..."):
-#             load_and_index_documents()
-#         st.success("✅ Vector store rebuilt successfully!")
+# loads the developer password
+DEV_PASSWORD = st.secrets["dev_password"]
+
+# Sidebar developer section
+st.sidebar.subheader("Developer Access")
+
+dev_pass = st.sidebar.text_input("Enter developer password", type="password")
+if dev_pass == DEV_PASSWORD:
+    if st.sidebar.button("🔄 Rebuild Vector DB"):
+        with st.spinner("Re-indexing MOM documents..."):
+            load_and_index_documents()
+        st.success("✅ Vector store rebuilt successfully!")
+else:
+    st.sidebar.caption("Developer tools hidden")
