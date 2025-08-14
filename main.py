@@ -1,5 +1,9 @@
 import streamlit as st
 
+import os
+
+os.environ["CHROMA_TELEMETRY_ENABLED"] = "false"
+
 st.expander("Disclaimer", expanded=True).markdown(
     """
 🔴 IMPORTANT NOTICE: This web application is a prototype developed for educational purposes only. The information provided here is NOT intended for real-world usage and should not be relied upon for making any decisions, especially those related to financial, legal, or healthcare matters.
