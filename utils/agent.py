@@ -30,7 +30,8 @@ def create_agent():
 
 def create_agent_ally():
     # the API key will be loaded from .env and available in os.environ
-    load_dotenv()
+    # load_dotenv()
+    OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     # create the model for agent to use
     agent_model = OpenAIServerModel(model_id="gpt-4o-mini")
@@ -53,11 +54,14 @@ def search_mom_regulation(query: str) -> str:
 
     Returns:
         dict: The matching regulations.
+
+    Example:
+      result = search_mom_regulation('What is the retirement age in Singapore in 2022?')
     """
 
     print("in search_mom_regulation()")
     # the API key will be loaded from .env and available in os.environ
-    # oad_dotenv()
+    # load_dotenv()
     OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     # llm to be used
@@ -68,7 +72,6 @@ def search_mom_regulation(query: str) -> str:
         streaming=True,
         api_key=OPENAPI_API_KEY,
     )
-    print("after llm")
 
     # create memory for conversation history
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
@@ -76,7 +79,6 @@ def search_mom_regulation(query: str) -> str:
 
     # Create the retriever (your existing get_retriever function)
     retriever = get_retriever()
-    print("after get_retriever")
 
     # # Create the conversational chain
     # conv_chain = ConversationalRetrievalChain.from_llm(
@@ -86,8 +88,6 @@ def search_mom_regulation(query: str) -> str:
     # and use the LLM to answer questions based on the retrieved documents
     rag_chain = RetrievalQA.from_llm(retriever=get_retriever(), llm=llm)
     response = rag_chain.invoke(query)
-
-    # print("after conv_chain")
 
     # # To use the chain, pass both the query and the chat history:
     # response = conv_chain({"question": query, "chat_history": chat_history})
@@ -111,8 +111,11 @@ def check_rights_tool(issue: str) -> str:
     Returns:
         str: The summary of the worker's rights.
     """
+    # the API key will be loaded from .env and available in os.environ
+    # load_dotenv()
+    OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, api_key=OPENAPI_API_KEY)
     prompt = f"Summarise the legal rights a worker in Singapore has regarding {issue}"
     return llm.invoke(prompt).content
 
@@ -138,7 +141,6 @@ def agent_search(agent, query):
     5. Always follow these rules exactly. Do not change the wording in rules 3 or 4.
     """
 
-    print("Running agent_search with query:", query)
     return agent.run(prompt)
 
 
@@ -159,6 +161,5 @@ def agent_ally_search(agent, query):
        "Sorry, I am unable to help you in this matter. Please call the MOM helpline at 61234567 for assistance."
     5. Always follow these rules exactly. Do not change the wording in rules 3 or 4.
     """
-    print("Running agent_ally_search with query:", query)
 
     return agent.run(prompt)

@@ -19,8 +19,6 @@ st.write(
 )
 # endregion &lt;--------- Streamlit Page Configuration ---------&gt;
 
-# language = st.selectbox("Preferred language:", ["English", "Chinese", "Malay", "Tamil", "Bengali"])
-
 # create agent once per session
 if "agent" not in st.session_state:
     st.session_state.agent = create_agent_ally()
@@ -54,5 +52,5 @@ if st.button("Assist me"):
     if user_lang != "en":
         with st.spinner("Translating response back to your language..."):
             response = translate_text(response, target_lang=user_lang)
-        st.info(f"Response in {user_lang}: {response}")
+        # st.info(f"Response in {user_lang}: {response}")
     st.markdown(f"🤝 Ally says: {response}")
