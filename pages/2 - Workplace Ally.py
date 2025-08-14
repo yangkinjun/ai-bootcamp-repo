@@ -5,7 +5,7 @@ from utils.agent import create_agent_ally, agent_ally_search
 from utils.translate import detect_language, translate_text
 
 
-# region &lt;--------- Streamlit Page Configuration ---------&gt;
+# start Streamlit Page Configuration
 st.set_page_config(layout="centered", page_title="My Streamlit App - Page 2")
 
 # Do not continue if check_password is not True.
@@ -17,7 +17,7 @@ st.title("🤝 Workplace Ally (Multi-lingual)")
 st.write(
     "Hi, I am Ally, your workplace best friend. I'll help you by listening to your concerns."
 )
-# endregion &lt;--------- Streamlit Page Configuration ---------&gt;
+# end Streamlit Page Configuration
 
 # create agent once per session
 if "agent" not in st.session_state:
@@ -53,4 +53,4 @@ if st.button("Assist me"):
         with st.spinner("Translating response back to your language..."):
             response = translate_text(response, target_lang=user_lang)
         # st.info(f"Response in {user_lang}: {response}")
-    st.markdown(f"🤝 Ally says: <code>{response}</code>", unsafe_allow_html=True)
+    st.markdown(f"🤝 Ally says: ```{response}```")
