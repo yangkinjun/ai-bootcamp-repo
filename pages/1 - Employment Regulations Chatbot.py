@@ -4,7 +4,7 @@ from utils.utility import check_password
 from utils.agent import create_agent, agent_search
 
 
-# region &lt;--------- Streamlit Page Configuration ---------&gt;
+# start Streamlit Page Configuration
 st.set_page_config(layout="centered", page_title="My Streamlit App - Page 1")
 
 # Do not continue if check_password is not True.
@@ -16,7 +16,7 @@ st.title("💬 Employment Regulations")
 st.write(
     "This is an AI-powered chatbot to ask about employment regulations in Singapore. "
 )
-# endregion &lt;--------- Streamlit Page Configuration ---------&gt;
+# end Streamlit Page Configuration
 
 # create agent once per session
 if "agent" not in st.session_state:
