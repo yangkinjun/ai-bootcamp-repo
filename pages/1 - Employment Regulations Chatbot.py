@@ -14,7 +14,13 @@ if not check_password():
 # Show title and description.
 st.title("💬 Employment Regulations")
 st.write(
-    "This is an AI-powered chatbot to ask about employment regulations in Singapore. "
+    "This is an AI-powered chatbot to ask about employment regulations in Singapore."
+)
+st.write(
+    "Sample questions include:\n"
+    "- What is the retirement age in Singapore in 2022?\n"
+    "- What is wrongful dismissal?\n"
+    "- Who is covered under the Employment Act?"
 )
 # end Streamlit Page Configuration
 

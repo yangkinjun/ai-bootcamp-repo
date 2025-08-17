@@ -17,6 +17,12 @@ st.title("🤝 Workplace Ally (Multi-lingual)")
 st.write(
     "Hi, I am Ally, your workplace best friend. I'll help you by listening to your concerns."
 )
+st.write(
+    "Sample questions include:\n"
+    "- I have not been paid my salary for three months. What are my rights?\n"
+    "- 我在短短的一天 被公司解雇了 。这是合理的吗？\n"
+    "- My boss is verbal abusing me and my team mates. What do we do?"
+)
 # end Streamlit Page Configuration
 
 # create agent once per session
