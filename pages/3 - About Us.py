@@ -19,11 +19,10 @@ Workplace Ally
 - Provide multilingual support for workers from diverse backgrounds.
 
 ## Data Sources
-- Singapore Employment Act 1968 (PDF)
-- Tripartite Advisory on Mental Well-being at Workplaces (PDF)
-- Tripartite Guidelines on Re-employment of Older Employees (PDF)
-- Tripartite Guidelines on Wrongful Dismissal (PDF)
-- Other official MOM and tripartite documents
+Documents from official MOM websites:
+- Singapore Employment Act 1968 (PDF) (https://sso.agc.gov.sg/Act/EmA1968)
+- List of tripartite guidelines and advisories that supplement MOM laws (https://www.mom.gov.sg/employment-practices/tripartism-in-singapore/tripartite-guidelines-and-advisories)
+
 
 ## Features
 - Employment Regulations Chatbot: Ask questions about Singapore employment law and get instant answers.
@@ -33,6 +32,6 @@ Workplace Ally
 - Modern, user-friendly Streamlit interface.
 
 ---
-For more details, visit the other pages or contact the project team.
+This capstone project is developed for AI Champions Bootcamp 2025.
 """
 )
