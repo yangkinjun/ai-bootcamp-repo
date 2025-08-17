@@ -1,7 +1,7 @@
-__import__("pysqlite3")
-import sys
+# __import__("pysqlite3")
+# import sys
 
-sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+# sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 
 import streamlit as st
 
@@ -9,10 +9,7 @@ from openai import OpenAI
 from smolagents import tool, CodeAgent, OpenAIServerModel
 from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
-from langchain.schema import HumanMessage, SystemMessage
 
-# from langchain.memory import ConversationBufferMemory
-# from langchain.chains import ConversationalRetrievalChain
 
 from utils.vector_store import get_retriever
 
