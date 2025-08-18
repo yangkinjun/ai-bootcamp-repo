@@ -1,7 +1,7 @@
-# __import__("pysqlite3")
-# import sys
+__import__("pysqlite3")
+import sys
 
-# sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 
 import streamlit as st
 
@@ -19,7 +19,9 @@ def create_agent():
     OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     # create the model for agent to use
-    agent_model = OpenAIServerModel(model_id="gpt-4o-mini", api_key=OPENAPI_API_KEY)
+    agent_model = OpenAIServerModel(
+        model_id="gpt-4o-mini", api_key=OPENAPI_API_KEY, temperature=0.5
+    )
 
     # create an agent with tools
     tools = [search_mom_regulation]
@@ -33,7 +35,9 @@ def create_agent_ally():
     OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
     # create the model for agent to use
-    agent_model = OpenAIServerModel(model_id="gpt-4o-mini", api_key=OPENAPI_API_KEY)
+    agent_model = OpenAIServerModel(
+        model_id="gpt-4o-mini", api_key=OPENAPI_API_KEY, temperature=0.5
+    )
 
     # create an agent with tools
     tools = [search_mom_regulation, check_rights_tool]
@@ -66,7 +70,7 @@ def search_mom_regulation(query: str) -> str:
     # llm to be used
     llm = ChatOpenAI(
         model="gpt-4o-mini",
-        temperature=0,
+        temperature=0.5,
         seed=42,
         streaming=True,
         api_key=OPENAPI_API_KEY,
@@ -154,11 +158,8 @@ def agent_search(agent, query):
     Rules:
     1. Respond in a professional and concise manner for HR practitioners.
     2. Do not use the Internet or any external sources other than the tools provided to you.
-    3. If the query is not related to MOM regulations, reply exactly with:
-       "This query is not related to MOM regulations."
-    4. If the query is related to MOM regulations but you do not have enough information or confidence to answer, reply exactly with:
-       "Please refer to the MOM website for more information."
-    5. For rules 3 and 4, use the text exactly as written - do not add, remove or change any characters.
+    3. If the documents do not contain relevant information, or you do not have enough information to answer, reply exactly with: **"Please refer to the MOM website for more information."**
+    4. For rule 3, use the text exactly as written - do not add, remove or change any characters.
     """
 
     return agent.run(prompt)
