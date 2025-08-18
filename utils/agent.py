@@ -102,6 +102,8 @@ def check_rights_tool(issue: str) -> str:
       result = check_rights_tool('我在短短的一天 被公司解雇了 。这是合理的吗?')
     """
 
+    print("in check_rights_tool()")
+
     # loads the API key
     OPENAPI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
