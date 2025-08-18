@@ -20,7 +20,7 @@ st.write(
 st.write(
     "Sample questions include:\n"
     "- I have not been paid my salary for three months. What are my rights?\n"
-    "- 我的上司 经常骂我笨,然后大声喊我. 我该怎么做？\n"
+    "- 我的上司 经常骂我笨 ，然后大声喊我。 我该怎么做？\n"
     "- I am told by my boss to work 12 hours a day, without being paid Overtime. What can I do?"
 )
 # end Streamlit Page Configuration
