@@ -76,29 +76,13 @@ def search_mom_regulation(query: str) -> str:
         api_key=OPENAPI_API_KEY,
     )
 
-    # create memory for conversation history
-    # memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-    # print("after memory")
-
     # Create the retriever (your existing get_retriever function)
     retriever = get_retriever()
 
-    # # Create the conversational chain
-    # conv_chain = ConversationalRetrievalChain.from_llm(
-    #     llm=llm, retriever=retriever, memory=memory
-    # )
     # retrieve documents from the vector store
     # and use the LLM to answer questions based on the retrieved documents
     rag_chain = RetrievalQA.from_llm(retriever=get_retriever(), llm=llm)
     response = rag_chain.invoke(query)
-
-    # # To use the chain, pass both the query and the chat history:
-    # response = conv_chain({"question": query, "chat_history": chat_history})
-
-    # result = response.get("result") or response.get("answer")
-    # if not isinstance(result, str):
-    #     result = str(result)
-    # return result
 
     return response["result"]
 
@@ -127,27 +111,8 @@ def check_rights_tool(issue: str) -> str:
     """
     return llm.invoke(prompt).content
 
-    # # Define system message (rules / instructions)
-    # system_msg = SystemMessage(
-    #     content=(
-    #         "You are a legal assistant that summarises the rights of workers in Singapore. "
-    #         "Do not use the Internet. Only summarise based on Singapore employment laws."
-    #     )
-    # )
-
-    # # Define user message (treat as plain text; prevents prompt injection)
-    # user_msg = HumanMessage(content=f"The worker's issue is: {issue}")
-
-    # # Call the LLM safely
-    # response = llm([system_msg, user_msg])
-
-    # return response.content
-
 
 def agent_search(agent, query):
-
-    # if chat_history is None:
-    #     chat_history = []
 
     prompt = f"""
 
@@ -176,11 +141,8 @@ def agent_ally_search(agent, query):
     Rules:
     1. Be friendly, empathetic, and supportive.
     2. Do not use the Internet or any external sources other than the tools provided to you.
-    3. If the query is not related to employment matters, reply exactly with:
-       "Sorry, this is not related to employment matters."
-    4. If the query is related to employment matters but you do not have enough information or confidence to answer, reply exactly with:
-       "Sorry, I am unable to help you in this matter. Please call the MOM helpline at 61234567 for assistance."
-    5. For rules 3 and 4, use the text exactly as written - do not add, remove or change any characters.
+    3. If the documents do not contain relevant information, or you do not have enough information to answer, reply exactly with: **"Sorry, I am unable to help you in this matter. Please call the MOM helpline at 61234567 for assistance."**
+    4. For rule 3, use the text exactly as written - do not add, remove or change any characters.
     """
 
     return agent.run(prompt)
